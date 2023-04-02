@@ -7,7 +7,6 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 from sklearn.cluster import KMeans
 from streamlit_image_coordinates import streamlit_image_coordinates
-import matplotlib
 
 
 def hide_header():
@@ -17,11 +16,10 @@ def hide_header():
 
 def show_sidebar():
     with st.sidebar:
-        #st.image('icon.ico')
         st.header("Welcome to the Image Analysis tool!")
         st.write("Upload an image or provide a link to analyze an image.")
         st.write('')
-        st.write("Your data (inputs and outputs) will not be saved and is yours only.")
+        st.write("Your data (inputs and outputs) will not be saved.")
 
 
 
@@ -146,7 +144,8 @@ def process_image(img):
 
         st.header('Picked colors')
         st.session_state['picked_colors'], rerun = display_colors(st.session_state['picked_colors'])
-
+        if rerun:
+            st.experimental_rerun()
         if 'clusters' not in st.session_state:
             get_clusters(colors)
 
