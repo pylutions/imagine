@@ -142,15 +142,18 @@ def process_image(img):
                 st.session_state['last_added'] = st.session_state['last_coordinates']
                 add_picked_color(img.getpixel((st.session_state['last_coordinates']['x'], st.session_state['last_coordinates']['y'])))
 
-        st.header('Picked colors')
-        st.session_state['picked_colors'], rerun = display_colors(st.session_state['picked_colors'])
-        if rerun:
-            st.experimental_rerun()
+        if st.session_state['picked_colors']:
+            st.header('Picked colors')
+            st.session_state['picked_colors'], rerun = display_colors(st.session_state['picked_colors'])
+            if rerun:
+                st.experimental_rerun()
         if 'clusters' not in st.session_state:
             get_clusters(colors)
 
         st.header('Dominant colors')
         st.session_state['clusters'], rerun = display_colors(st.session_state['clusters'])
+
+        st.session_state['image_loaded'] = True
 
         if rerun:
             st.experimental_rerun()
@@ -176,11 +179,12 @@ if __name__ == "__main__":
     if 'picked_colors' not in st.session_state:
         st.session_state['picked_colors'] = []
         st.session_state['last_added'] = ''
+        st.session_state['image_loaded'] = False
 
 
     st.title("Image Analysis")
 
-    if not get_query():
+    if not get_query() and not st.session_state['image_loaded']:
         col1, col2 = st.columns(2)
         with col1:
             st.session_state['image_file'] = st.file_uploader('Upload an image', type=['png', 'jpg'], key='uploader')
