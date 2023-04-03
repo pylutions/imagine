@@ -131,18 +131,21 @@ def process_image(img):
     try:
         st.write('---')
         get_metadata(img)
+
+        if "Image Width" in st.session_state['meta']:
+            width = st.session_state['meta']["Image Width"]
+            factor = width / 1000
+
+        st.session_state['last_coordinates'] = streamlit_image_coordinates(img, width=1000)
         with st.expander('Meta data'):
             st.write(st.session_state['meta'])
-
-        st.session_state['last_coordinates'] = streamlit_image_coordinates(img)
-
         if 'rgb_colors' not in st.session_state:
             extract_colors(img)
         colors = st.session_state.rgb_colors
         if st.session_state['last_coordinates']:
             if not st.session_state['last_coordinates'] == st.session_state['last_added']:
                 st.session_state['last_added'] = st.session_state['last_coordinates']
-                add_picked_color(img.getpixel((st.session_state['last_coordinates']['x'], st.session_state['last_coordinates']['y'])))
+                add_picked_color(img.getpixel((st.session_state['last_coordinates']['x']*factor, st.session_state['last_coordinates']['y']*factor)))
 
         if st.session_state['picked_colors']:
             st.header('Picked colors')
