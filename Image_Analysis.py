@@ -114,7 +114,7 @@ def display_colors(colors):
                 f'<div style="background-color: rgba({R}, {G}, {B},1); width:100%; height:50px;"></div>',
                 unsafe_allow_html=True)
         rgb.write(f'{R}, {G}, {B}')
-        hxc.write(hex_color)
+        hxc.code(hex_color, language=None)
         ret_colors.append(color)
     return ret_colors, rerun
 
@@ -130,10 +130,12 @@ def process_image(img):
     st.session_state['previous_image'] = st.session_state['image']
     try:
         st.write('---')
-        st.session_state['last_coordinates'] = streamlit_image_coordinates(img)
         get_metadata(img)
         with st.expander('Meta data'):
             st.write(st.session_state['meta'])
+
+        st.session_state['last_coordinates'] = streamlit_image_coordinates(img)
+
         if 'rgb_colors' not in st.session_state:
             extract_colors(img)
         colors = st.session_state.rgb_colors
