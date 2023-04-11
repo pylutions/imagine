@@ -7,6 +7,7 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 from sklearn.cluster import KMeans
 from streamlit_image_coordinates import streamlit_image_coordinates
+from streamlit.components.v1 import html
 
 
 def hide_header():
@@ -14,13 +15,57 @@ def hide_header():
     st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
 
 
+def initialize():
+    if 'init' not in st.session_state:
+        if 'buymeacoffee' in st.secrets:
+            if 'enabled' in st.secrets['buymeacoffee']:
+                if st.secrets['buymeacoffee']['enabled'] and 'button' in st.secrets['buymeacoffee']:
+                    st.session_state['bmcbutton'] = st.secrets['buymeacoffee']['button']
+        st.session_state['init'] = True
+
+
+def bmac():
+
+    if 'bmcbutton' in st.session_state:
+        html(st.session_state.bmcbutton, width=74, height=80)
+
+        st.markdown(
+            """
+            <style>
+                iframe[width="74"] {
+                    position: fixed;
+                    top: 5%;
+                    right: 0%;
+                }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+
 def show_sidebar():
     with st.sidebar:
         st.header("Welcome to the Image Analysis tool!")
         st.write("Upload an image or provide a link to analyze an image.")
         st.write('')
         st.write("Your data (inputs and outputs) will not be saved.")
+        if st.button('Clean desk'):
+            st.write('clicked')
+            st.experimental_set_query_params(
+                url='',
+            )
+            #if 'image' in st.session_state:
+            #try:
+            #    del \
+            st.session_state['image'] = None
+            st.session_state['image_file'] = None
+            st.session_state['image_url'] = None
+            
+            #if 'image_file' in st.session_state:
 
+            #if 'image_url' in st.session_state:
+
+            st.session_state['image_loaded'] = False
+            st.experimental_rerun()
 
 
 def process_file(image_file):
@@ -181,6 +226,7 @@ if __name__ == "__main__":
     st.set_page_config(page_title="Image Analysis", page_icon="icon.ico", layout="wide")
     hide_header()
     show_sidebar()
+    initialize()
     if 'picked_colors' not in st.session_state:
         st.session_state['picked_colors'] = []
         st.session_state['last_added'] = ''
@@ -207,4 +253,4 @@ if __name__ == "__main__":
         if st.session_state['image_url']:
             process_url(st.session_state['image_url'])
 
-
+    bmac()
