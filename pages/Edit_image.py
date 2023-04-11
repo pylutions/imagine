@@ -18,7 +18,13 @@ if __name__ == "__main__":
     st.set_page_config(page_title="Image Analysis", page_icon="icon.ico", layout="wide")
     hide_header()
     show_sidebar()
-    image = st.session_state['image']
-    enhancer = ImageEnhance.Color(image)
-    enhanced_image = enhancer.enhance(st.session_state['factor'])
-    st.image(enhanced_image)
+    if 'image' in st.session_state:
+        if st.session_state['image'] is not None:
+            image = st.session_state['image']
+            enhancer = ImageEnhance.Color(image)
+            enhanced_image = enhancer.enhance(st.session_state['factor'])
+            st.image(enhanced_image)
+        else:
+            st.write('Go to Image Analysis and select an image first.')
+    else:
+        st.write('Go to Image Analysis and select an image first.')
