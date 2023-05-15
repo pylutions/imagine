@@ -46,7 +46,7 @@ def bmac():
 def more():
     button_html = '''
         <div style="position: fixed; bottom: 10%; right: -1%;">
-            <a href="https://pylutions.com/#products" target="_blank" style="display: inline-block; background-color: #62c07f; color: black; padding: 12px 24px; font-size: 16px; border-radius: 5px; text-decoration: none;">
+            <a href="https://pylutions.com/#products" target="_blank" style="display: inline-block; background-color: #62c07f; color: black; padding: 12px 48px; font-size: 16px; border-radius: 5px; text-decoration: none;">
                 more...
             </a>
         </div>
