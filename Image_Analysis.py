@@ -65,9 +65,8 @@ def show_sidebar():
             st.experimental_set_query_params(
                 url='',
             )
-            #if 'image' in st.session_state:
-            #try:
-            #    del \
+            if 'picked_colors' in st.session_state:
+                del st.session_state['picked_colors']
             st.session_state['image'] = None
             st.session_state['image_file'] = None
             st.session_state['image_url'] = None
