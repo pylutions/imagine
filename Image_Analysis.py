@@ -169,8 +169,10 @@ def process_image(img):
 
     if 'previous_image' in st.session_state:
         if st.session_state['image'] != st.session_state['previous_image']:
-            del st.session_state['rgb_colors']
-            del st.session_state['clusters']
+            if 'rgb_colors' in st.session_state:
+                del st.session_state['rgb_colors']
+            if 'clusters' in st.session_state:
+                del st.session_state['clusters']
 
     st.session_state['previous_image'] = st.session_state['image']
     try:
