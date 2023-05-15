@@ -42,6 +42,18 @@ def bmac():
             unsafe_allow_html=True,
         )
 
+
+def more():
+    button_html = '''
+        <div style="position: fixed; bottom: 8%; right: -1%;">
+            <a href="https://pylutions.com/#products" target="_blank" style="display: inline-block; background-color: #62c07f; color: black; padding: 12px 24px; font-size: 16px; border-radius: 5px; text-decoration: none;">
+                more...
+            </a>
+        </div>
+    '''
+    st.markdown(button_html, unsafe_allow_html=True)
+
+
 def show_sidebar():
     with st.sidebar:
         st.header("Welcome to the Image Analysis tool!")
@@ -256,3 +268,4 @@ if __name__ == "__main__":
             process_url(st.session_state['image_url'])
 
     bmac()
+    more()
